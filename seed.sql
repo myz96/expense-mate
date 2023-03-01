@@ -1,31 +1,13 @@
-DROP TABLE IF EXISTS expenses;
-DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS summaries;
+INSERT INTO users (email, name) VALUES ('michael.yj.zhao@gmail.com', 'Michael Zhao');
+INSERT INTO users (email, name) VALUES ('johnsmith@example.com', 'John Smith');
 
-CREATE TABLE expenses (
-  id SERIAL PRIMARY KEY,
-  user_id integer,
-  expense VARCHAR(250) NOT NULL,
-  amount integer NOT NULL,
-  category VARCHAR(250),
-  type VARCHAR(250),
-  CONSTRAINT fk_expenses_users
-    FOREIGN KEY (user_id)
-    REFERENCES users(id)  
-);
+INSERT INTO expenses (user_id, expense, amount, category, type) VALUES ('1', 'Drinks at Manchuria', '100', 'Eating out', 'Splurg');
+INSERT INTO expenses (user_id, expense, amount, category, type) VALUES ('1', 'Date night at Farmers Daughter', '150', 'Eating out', 'Splurg');
+INSERT INTO expenses (user_id, expense, amount, category, type) VALUES ('1', 'Groceries', '120', 'Groceries', 'Essentials');
+INSERT INTO expenses (user_id, expense, amount, category, type) VALUES ('2', 'Netflix', '15', 'Entertainment', 'Splurg');
+INSERT INTO expenses (user_id, expense, amount, category, type) VALUES ('2', 'Gym membership', '27', 'Health', 'Essentials');
+INSERT INTO expenses (user_id, expense, amount, category, type) VALUES ('2', 'Uber eats', '35', 'Lazy eats', 'Splurg');
 
-CREATE TABLE users (
-  id SERIAL PRIMARY KEY,
-  email TEXT NOT NULL,
-  password_hash TEXT NOT NULL,
-  name VARCHAR(250),
-  user_id integer,
-  category VARCHAR(250),
-  type VARCHAR(250)
-);
+INSERT INTO friends (user_id, friend_id) VALUES ('1', '2');
+INSERT INTO friends (user_id, friend_id) VALUES ('2', '1');
 
-CREATE TABLE friends (
-    id SERIAL PRIMARY KEY,
-    user_id integer,
-    friend_id integer
-);
