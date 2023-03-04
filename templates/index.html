@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}
+My Dashboard
+{% endblock title %}
+
+{% block content %}
+<a href="/add_expense">Add Expense</a>
+
+<div class="kpi-container">
+    <h1>Savings</h1>
+    <p>Weekly Summary Placeholder</p>
+</div>
+<div class="kpi-container">
+    <h1>Income</h1>
+    <p>Weekly Summary Placeholder</p>
+</div>
+<div class="kpi-container">
+    <h1>Expenses</h1>
+    <p>Weekly Summary Placeholder</p>
+</div>
+
+<table>
+  <thead>
+    <th>
+        Date
+    </th>
+    <th>
+        Description
+    </th>
+    <th>
+        Amount
+    </th>
+    <th>
+        Category
+    </th>
+    <th>
+        Type
+    </th>
+    <th>
+        Edit
+    </th>
+    <th>
+        Delete
+    </th>
+  </thead>
+  <tbody>
+    {% for expense in expenses %}
+    <tr>
+      <td>{{ expense.date.day}}-{{ expense.date.strftime('%B')}}</td>
+      <td>{{ expense.description }}</td>
+      <td>{{ expense.amount }}</td>
+      <td>{{ expense.category }}</td>
+      <td>{{ expense.type }}</td>
+      <td><a href="/edit_expense?expense_id={{ expense.id }}">edit</a></td>
+      <td><a href="/delete_expense?expense_id={{ expense.id }}">delete</td>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}

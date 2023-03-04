@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}
+Add Expense
+{% endblock title %}
+
+{% block content %}
+<form action="/add_expense_action" method="POST">
+    <label for="date">Date</label><input type="date", name="date", id="date">
+    <label for="description">Description</label><input type="text" name="description", id="description">
+    <label for="amount">Amount</label><input type="number" name="amount", id="amount">
+    <label for="category">Category</label><input type="text" name="category", id="category">
+    <label for="type">Type</label>
+    <select name="type" id="type">
+        <option value="splurg">Splurg</option>
+        <option value="essentials">Essentials</option>
+    </select>
+    <input type="submit" value="Submit">
+</form>
+
+{% endblock %}

@@ -1,4 +1,5 @@
 DROP TABLE IF EXISTS expenses;
+DROP TABLE IF EXISTS income;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS friends;
 
@@ -13,11 +14,25 @@ CREATE TABLE users (
 CREATE TABLE expenses (
   id SERIAL PRIMARY KEY,
   user_id integer,
-  expense VARCHAR(250),
+  date DATE,
+  description TEXT,
   amount integer,
   category VARCHAR(250),
   type VARCHAR(250),
   CONSTRAINT fk_expenses_users
+    FOREIGN KEY (user_id)
+    REFERENCES users(id)  
+);
+
+CREATE TABLE income (
+  id SERIAL PRIMARY KEY,
+  user_id integer,
+  date DATE,
+  description TEXT,
+  amount integer,
+  category VARCHAR(250),
+  type VARCHAR(250),
+  CONSTRAINT fk_income_users
     FOREIGN KEY (user_id)
     REFERENCES users(id)  
 );

@@ -3,20 +3,27 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Expense Mate</title>
+        <title>{% block title %}{% endblock %}</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
     </head>
     <body>
         <header>
+            <h1>Expense Mate</h1>
             <nav>
                 <ul>
-                    <li><a href="#">Home</a></li>
+                    <li><a href="/">Home</a></li>
                     <li><a href="#">Transactions</a></li>
                 </ul>
                 <ul>
-                    <li><a href="#">User</a></li>
+                    {% if user %}
+                    <p>Logged in as {{ user.name }}</p>
+                    <a href="/logout">Sign out</a>
+                    {% else %}
+                    <a href="/login">Login</a>
+                    <a href="/sign_up">Sign-up</a>
+                    {% endif %}
                 </ul>
             </nav>
         </header>
