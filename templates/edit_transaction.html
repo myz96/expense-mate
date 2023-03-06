@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}
+Edit Transaction
+{% endblock title %}
+
+{% block content %}
+<form action="/edit_transaction_action" method="POST">
+    <label for="date">Date</label><input type="date", name="date", id="date", value="{{ transaction.date }}">
+    <label for="description">Description</label><input type="text" name="description", id="description", value="{{ transaction.description }}">
+    <label for="amount">Amount</label><input type="number" name="amount", id="amount", value="{{ transaction.amount }}">
+    <label for="category">Category</label><input type="text" name="category", id="category", value="{{ transaction.category }}">
+    <label for="type">Type</label><input type="text" name="type", id="type", value="{{ transaction.type }}">
+    <input type="hidden" value="{{ transaction.id }}", name="id", id="id">
+    <input type="submit" value="Submit">
+</form>
+
+{% endblock %}

@@ -1,12 +1,13 @@
 {% extends "base.html" %}
 
 {% block title %}
-Add Expense
+Add Transaction
 {% endblock title %}
 
 {% block content %}
-<form action="/add_expense_action" method="POST">
+<form action="/add_transaction_action" method="POST">
     <label for="date">Date</label><input type="date", name="date", id="date">
+    <label for="transaction_type">Transaction Type</label><input type="text", name="transaction_type", id="transaction_type">
     <label for="description">Description</label><input type="text" name="description", id="description">
     <label for="amount">Amount</label><input type="number" name="amount", id="amount">
     <label for="category">Category</label><input type="text" name="category", id="category">

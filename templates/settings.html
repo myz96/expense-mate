@@ -1,11 +1,11 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {% block title %}
-Sign-up
-{% endblock %}
+Settings
+{% endblock title %}
 
 {% block content %}
-<form action="/sign_up_action" method="POST">
+<form action="/settings_action" method="POST">
     <label for="name">Name: </label><input type="text" name="name" id="name">
     <label for="email">Email: </label><input type="text" name="email" id="email">
     <label for="password">Password: </label><input type="password" name="password" id="password">
@@ -16,4 +16,5 @@ Sign-up
 {% if not passwords_match %}
 <p style="color: red;">Passwords do not match. Please try again.</p>
 {% endif %}
+
 {% endblock %}

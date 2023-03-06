@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}
+Delete Expense
+{% endblock title %}
+
+{% block content %}
+<h1>Are you sure you want to delete {{ transaction.description }} transaction?</h1>
+<form action="/delete_transaction_action">
+    <input type="hidden" name="id" id="id" value="{{ transaction.id }}">
+    <input type="submit" value="Submit">
+</form>
+
+{% endblock %}
