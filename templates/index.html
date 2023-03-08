@@ -1,71 +1,45 @@
 {% extends "base.html" %}
 
 {% block title %}
-My Dashboard
+Home
 {% endblock title %}
 
 {% block content %}
-
-<div class="kpi-container">
-    <h2>Savings Goal</h2>
-    <p>${{ user.savings_goal }}</p>
-</div>
-<div class="kpi-container">
-    <h2> Savings Over Target </h2>
-    <p>${{ weekly_savings_above_goal }}</p>
-</div>
-<div class="kpi-container">
-    <h2>Income</h2>
-    <p>${{ latest_weekly_income }}</p>
-</div>
-<div class="kpi-container">
-    <h2>Expenses</h2>
-    <p>${{ latest_weekly_expenses }}</p>
-</div>
-
-<div id="chart">{{ chart|safe }}</div>
-
-<table>
-  <thead>
-    <th>
-        Date
-    </th>
-    <th>
-        Description
-    </th>
-    <th>
-        Amount
-    </th>
-    <th>
-        Category
-    </th>
-    <th>
-        Type
-    </th>
-    <th>
-        Edit
-    </th>
-    <th>
-        Delete
-    </th>
-  </thead>
-  <tbody>
-    {% for transaction in transactions %}
-    <tr>
-      <td>{{ transaction.date.day}}-{{ transaction.date.strftime('%B')}}</td>
-      <td>{{ transaction.description }}</td>
-      <td>{{ transaction.amount }}</td>
-      <td>{{ transaction.category }}</td>
-      <td>{{ transaction.type }}</td>
-      <td><a href="/edit_transaction?transaction_id={{ transaction.id }}">edit</a></td>
-      <td><a href="/delete_transaction?transaction_id={{ transaction.id }}">delete</td>
+<div class="friends">
+    <h2>Friends List:</h2>
+    <ul>
+    {% for account in users %}
+        <li><a href="/add_friend?friend_id={{ account.id }}">{{ account.name }}</a></li>
     {% endfor %}
-  </tbody>
-</table>
+    </ul>
+</div>
 
-{% endblock %}
-
-{% block script %}
-<script src="https://cdn.plot.ly/plotly-latest.min.js" async defer></script>
-
+<h2>Friend Posts</h2>
+{% for post in posts %}
+<div>
+    <h3>Savings over target: ${{ post.savings_amount }}</h3>
+    <p>ID: {{ post.id }}</p>
+    <p>Description: {{ post.description }}</p>
+    <p>User: {{ post.name }}</p>
+    <p>Likes:</p>
+    <ul>
+        {% for user_id in post.likes %}
+        <li>{{ user_id }}</li>
+        {% endfor %}
+    </ul>
+    <p>Comments:</p>
+    <ul>
+        {% for comment in post.comments %}
+        <li>{{ comment }}</li>
+        {% endfor %}
+    </ul>
+    <p><a href="/like_post?post_id={{ post.id }}">like</a></p>
+    <form action="/comment_post" method="POST">
+        <label for="comment">Comment</label>
+        <input type="text" name="comment" id="comment">
+        <input type="hidden" name="post_id" value="{{ post.id }}">
+        <input type="submit" value="Submit">
+    </form>
+</div>
+{% endfor %}
 {% endblock %}

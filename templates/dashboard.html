@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}
+My Dashboard
+{% endblock title %}
+
+{% block content %}
+
+<div class="kpi-container">
+    <h2>Savings Goal</h2>
+    <p>${{ user.savings_goal }}</p>
+</div>
+<div class="kpi-container">
+    <h2> Savings Over Target </h2>
+    <p>${{ weekly_savings_above_goal }}</p>
+</div>
+<div class="kpi-container">
+    <h2>Income</h2>
+    <p>${{ latest_weekly_income }}</p>
+</div>
+<div class="kpi-container">
+    <h2>Expenses</h2>
+    <p>${{ latest_weekly_expenses }}</p>
+</div>
+
+<div class="chart">{{ pie_chart_src | safe }}</div>
+<div class="chart">{{ bar_chart_src | safe }}</div>
+
+<table>
+  <thead>
+    <th>
+        Date
+    </th>
+    <th>
+        Description
+    </th>
+    <th>
+        Amount
+    </th>
+    <th>
+        Category
+    </th>
+    <th>
+        Type
+    </th>
+    <th>
+        Edit
+    </th>
+    <th>
+        Delete
+    </th>
+  </thead>
+  <tbody>
+    {% for transaction in transactions %}
+    <tr>
+      <td>{{ transaction.date.day}}-{{ transaction.date.strftime('%B')}}</td>
+      <td>{{ transaction.description }}</td>
+      <td>{{ transaction.amount }}</td>
+      <td>{{ transaction.category }}</td>
+      <td>{{ transaction.type }}</td>
+      <td><a href="/edit_transaction?transaction_id={{ transaction.id }}">edit</a></td>
+      <td><a href="/delete_transaction?transaction_id={{ transaction.id }}">delete</td>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}
+
+{% block script %}
+<script src="https://cdn.plot.ly/plotly-latest.min.js" async defer></script>
+
+{% endblock %}

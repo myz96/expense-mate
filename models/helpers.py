@@ -94,17 +94,32 @@ class User:
         self.friend_ids = friend_ids
         self.savings_goal = savings_goal
 
-    def add_friend(self, user_id):
-        self.friend_ids.append(user_id)
-
     def validate_password(self, password):
         password_match = check_password_hash(self.password_hash, password)
         return password_match
+    
+    def get_friends(self):
+        friends = [get_user(friend_id) for friend_id in self.friend_ids]
+        return friends
+
+    def add_remove_friend(self, friend_id):
+        print(type(friend_id))
+        print(friend_id)
+        print(self.friend_ids)
+        print(int(friend_id) in self.friend_ids)
+        if int(friend_id) in self.friend_ids:
+            sql_write("UPDATE users SET friend_ids = array_remove(friend_ids, %s) WHERE id = %s", [friend_id, self.id])
+            sql_write("UPDATE users SET friend_ids = array_remove(friend_ids, %s) WHERE id = %s", [self.id, friend_id])
+        else:
+            sql_write("UPDATE users SET friend_ids = array_append(friend_ids, %s) WHERE id = %s", [friend_id, self.id])
+            sql_write("UPDATE users SET friend_ids = array_append(friend_ids, %s) WHERE id = %s", [self.id, friend_id])
+
+def create_user(email, password_hash, name, savings_goal):
+    sql_write("INSERT INTO users (email, password_hash, name, savings_goal, friend_ids) VALUES (%s, %s, %s, %s, ARRAY[]::integer[])", [email, password_hash, name, savings_goal])
 
 def get_user_id(email):
     rows = sql_select("SELECT id FROM users WHERE email = %s", [email])
     user_id = rows[0]['id']
-    
     return user_id 
 
 def get_user(user_id):
@@ -121,3 +136,62 @@ def get_user(user_id):
 
     return user
 
+def get_all_users():
+    rows = sql_select("SELECT * FROM users", [])
+    users = [get_user(row['id']) for row in rows]
+    return users
+
+class Post:
+    def __init__(self, id, user_id, name, savings_amount, description, likes, comments):
+        self.id = id
+        self.user_id = user_id
+        self.name = name
+        self.savings_amount = savings_amount
+        self.description = description
+        self.likes = likes
+        self.comments = comments
+    
+    def like_unlike_post(self, user_id):
+        if user_id in self.likes:
+            sql_write("UPDATE posts SET likes = array_remove(likes, %s) WHERE id = %s", [user_id, self.id])
+        else:
+            sql_write("UPDATE posts SET likes = array_append(likes, %s) WHERE id = %s", [user_id, self.id])
+    
+    def add_comment(self, comment):
+        sql_write("UPDATE posts SET comments = array_append(comments, %s) WHERE id = %s", [comment, self.id])
+
+    def edit_post(self, description):
+        sql_write("UPDATE posts SET description = %s WHERE id = %s", [description, self.id])
+
+def create_post(user_id, savings_amount, description):
+    user = get_user(user_id)
+    sql_write("INSERT INTO posts (user_id, name, savings_amount, description, likes, comments) VALUES (%s, %s, %s, %s, ARRAY[]::integer[], ARRAY[]::text[])", [user_id, user.name, savings_amount, description])
+
+def get_post(post_id):
+    rows = sql_select("SELECT * FROM posts WHERE id = %s", [post_id])
+
+    id = rows[0]["id"]
+    user_id = rows[0]["user_id"]
+    name = get_user(user_id).name
+    savings_amount = rows[0]["savings_amount"]
+    description = rows[0]["description"]
+    likes = rows[0]["likes"]
+    comments = rows[0]["comments"]
+
+    post = Post(id, user_id, name, savings_amount, description, likes, comments)
+
+    return post
+
+def get_feed_posts(user_id):
+    rows = sql_select("SELECT posts.id AS post_id FROM posts LEFT JOIN users ON posts.user_id = users.id WHERE %s = ANY(users.friend_ids)", [user_id])
+
+    posts = [get_post(row['post_id']) for row in rows]
+
+    return posts
+
+def get_user_posts(user_id):
+    rows = sql_select("SELECT * FROM posts WHERE user_id = %s", [user_id])
+
+    posts = [get_post(row['id']) for row in rows]
+    
+    return posts

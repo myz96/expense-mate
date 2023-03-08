@@ -1,12 +1,12 @@
 DROP TABLE IF EXISTS transactions;
+DROP TABLE IF EXISTS posts;
 DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS friends;
 
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
   email TEXT,
   password_hash TEXT,
-  name VARCHAR(250),
+  name VARCHAR(512),
   friend_ids integer[],
   savings_goal integer
 );
@@ -18,17 +18,23 @@ CREATE TABLE transactions (
   date DATE,
   description TEXT,
   amount integer,
-  category VARCHAR(250),
-  type VARCHAR(250),
+  category VARCHAR(512),
+  type VARCHAR(512),
   CONSTRAINT fk_transactions_users
     FOREIGN KEY (user_id)
     REFERENCES users(id)  
 );
 
-CREATE TABLE friends (
-    id SERIAL PRIMARY KEY,
-    user_id integer,
-    friend_id integer
+CREATE TABLE posts (
+  id SERIAL PRIMARY KEY,
+  user_id integer,
+  name VARCHAR(250),
+  savings_amount integer, -- Replace with URL string to donut graph that shows savings over and above target
+  description TEXT,
+  likes integer[],
+  comments TEXT[],
+  CONSTRAINT fk_posts_users
+    FOREIGN KEY (user_id)
+    REFERENCES users(id)
 );
 
--- Watch video best back end for likes on social media
