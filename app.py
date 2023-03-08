@@ -159,7 +159,8 @@ def sign_up_page():
 
 @app.route('/sign_up_action', methods=['POST'])
 def sign_up_action():
-    name = request.form.get('name')
+    first_name = request.form.get('first_name')
+    last_name = request.form.get('last_name')
     email = request.form.get('email')
     password = request.form.get('password')
     password_confirmation = request.form.get('password_confirmation')
@@ -168,7 +169,7 @@ def sign_up_action():
 
     if passwords_match:
         password_hash = generate_password_hash(password)
-        create_user(email, password_hash, name, savings_goal)
+        create_user(email, password_hash, first_name, last_name, savings_goal)
         return redirect('/login')
     else:
         passwords_match = False
@@ -186,7 +187,8 @@ def settings_page():
 @app.route('/settings_action', methods=['POST'])
 def settings_action():
     user_id = session.get('user_id', '')
-    name = request.form.get('name')
+    first_name = request.form.get('first_name')
+    last_name = request.form.get('last_name')
     email = request.form.get('email')
     password = request.form.get('password')
     password_confirmation = request.form.get('password_confirmation')
@@ -195,7 +197,7 @@ def settings_action():
 
     if passwords_match:
         password_hash = generate_password_hash(password)
-        sql_write("UPDATE users SET email =%s, password_hash = %s, name = %s, savings_goal = %s WHERE id = %s", [email, password_hash, name, savings_goal, user_id])
+        sql_write("UPDATE users SET email =%s, password_hash = %s, first_name = %s, last_name = %s, savings_goal = %s WHERE id = %s", [email, password_hash, first_name, last_name, savings_goal, user_id])
 
         return redirect('/login')
     else:

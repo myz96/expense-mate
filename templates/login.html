@@ -5,12 +5,85 @@ Login
 {% endblock %}
 
 {% block content %}
-<form action="/login_action" method="POST">
+<div class="container d-flex flex-column flex-lg-row justify-content-evenly mt-5 pt-5">
+    <!-- heading -->
+    <div class="text-center text-lg-start mt-lg-5 pt-lg-5">
+        <img src="{{ url_for('static', filename='img/logos/logo_long.png') }}" alt="logo" style="width:400px; height:auto">
+        <p class="w-75 mx-auto mx-lg-0 fs-4">
+            Xpense helps you save more with friends.
+        </p>
+    </div>
+    <!-- login form -->
+    <div style="max-width: 28rem; width: 100%" class="mx-auto">
+        <div class="bg-white shadow rounded p-3 input-group-lg">
+            <!-- <form action="/login_action" id="login_form" method="POST"> -->
+            <form action="{{ url_for('check_login') }}" id="login_form" method="POST">
+                <input type="text" class="form-control my-3" name="email" id="email" placeholder="Email address">
+                <input type="password" class="form-control my-3" name="password" id="password" placeholder="Password">    
+                <div class="text-center mt-3">
+                    <button class="btn btn-primary w-100 my-3" onclick="submitLoginForm()">Log In</button>
+                </div>
+            </form>
+            <a href="#" class="text-decoration-none text-center">
+                <p>Forgotten password?</p>
+            </a>
+            
+            <!-- Sign up -->
+            <hr />
+            <div class="text-center my-4">
+                <button class="btn btn-success btn-lg" data-bs-toggle="modal" data-bs-target="#signUp">Create New Account</button>
+            </div>
+
+            <!-- Sign up modal -->
+            <div class="modal fade" id="signUp" tabindex="-1" aria-labelledby="signUpLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2 class="modal-title" id="signUpLabel">Sign Up</h2>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="/sign_up_action" id="sign_up_form">
+                                <div class="row">
+                                    <div class="col">
+                                        <input type="text" name="first_name" id="first_name" placeholder="First name" class="form-control">
+                                    </div>
+                                    <div class="col">
+                                        <input type="text" name="last_name" id="last_name" placeholder="Surname" class="form-control">
+                                    </div>
+                                </div>
+                                <input type="email" name="email" id="email" name="email" placeholder="Email address" class="form-control my-3">
+                                <input type="password" name="password" id="password" name="password" placeholder="New password" class="form-control my-3">
+                                <input type="number" name="savings_goal" id="savings_goal" name="savings_goal" placeholder="Enter your weekly savings goal" class="form-control my-3">
+                                <div class="text-center mt-3">
+                                    <button type="button" class="btn btn-success btn-lg" data-bs-dismiss="modal" onclick="submitSignUpForm()">Sign Up</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- footer -->
+<footer class="bg-white p-4 text-muted">
+    <div class="container">
+        <div class="mt-4 mx-2">
+                <p class="fs-7">Xpense by Michael Zhao &copy; 2023 | <a href="https://github.com/myz96" class="text-muted text-decoration-none">GitHub</a></p>
+        </div>
+    </div>
+</footer>
+
+
+
+<!-- <form action="/login_action" method="POST">
     <label for="email">Email: </label><input type="text" name="email" id="email">
     <label for="password">Password: </label><input type="password" name="password" id="password">
     <input type="submit">
 </form>
 {% if wrong_password %}
 <p style="color: red;">Email address or password is incorrect. Please try again.</p>
-{% endif %}
+{% endif %} -->
 {% endblock %}

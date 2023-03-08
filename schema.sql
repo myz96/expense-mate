@@ -6,7 +6,8 @@ CREATE TABLE users (
   id SERIAL PRIMARY KEY,
   email TEXT,
   password_hash TEXT,
-  name VARCHAR(512),
+  first_name VARCHAR(512),
+  last_name VARCHAR(512),
   friend_ids integer[],
   savings_goal integer
 );

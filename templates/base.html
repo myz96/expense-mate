@@ -6,13 +6,15 @@
         <title>{% block title %}{% endblock %}</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <!-- Bootstrap -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
         <!-- Main CSS file -->
         <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
     </head>
-    <body>
-        <header>
+    <body class="bg-gray">
+        <!-- <header>
             <h1>Expense Mate</h1>
             <nav>
                 <ul>
@@ -34,23 +36,23 @@
                     {% endif %}
                 </ul>
             </nav>
-        </header>
+        </header> -->
 
-        <div class="main">
-            {% block content %} {% endblock %}
-        </div>
-
-        <footer>
+        {% block content %}{% endblock %}
+        
+        <!-- <footer>
             <p>Michael Zhao</p>
             <ul>
                 <li><a href="#">GitHub</a></li>
                 <li><a href="#">Website</a></li>
             </ul>
-        </footer>
+        </footer> -->
 
-        {% block script %}
-        {% endblock %}
+
+        <!-- Bootstrap -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+        <!-- Main JS file -->
         <script src="{{url_for('static', filename='js/script.js')}}" async defer></script>
+        {% block script %}{% endblock %}
     </body>
 </html>

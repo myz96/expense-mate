@@ -86,11 +86,12 @@ def get_weekly_income(user_id):
     return [weeks, weekly_income]
 
 class User:
-    def __init__(self, id, email, password_hash, name, friend_ids, savings_goal):
+    def __init__(self, id, email, password_hash, first_name, last_name, friend_ids, savings_goal):
         self.id = id
         self.email = email
         self.password_hash = password_hash
-        self.name = name
+        self.first_name = first_name
+        self.last_name = last_name
         self.friend_ids = friend_ids
         self.savings_goal = savings_goal
 
@@ -114,8 +115,8 @@ class User:
             sql_write("UPDATE users SET friend_ids = array_append(friend_ids, %s) WHERE id = %s", [friend_id, self.id])
             sql_write("UPDATE users SET friend_ids = array_append(friend_ids, %s) WHERE id = %s", [self.id, friend_id])
 
-def create_user(email, password_hash, name, savings_goal):
-    sql_write("INSERT INTO users (email, password_hash, name, savings_goal, friend_ids) VALUES (%s, %s, %s, %s, ARRAY[]::integer[])", [email, password_hash, name, savings_goal])
+def create_user(email, password_hash, first_name, last_name, savings_goal):
+    sql_write("INSERT INTO users (email, password_hash, first_name, last_name, savings_goal, friend_ids) VALUES (%s, %s, %s, %s, %s, ARRAY[]::integer[])", [email, password_hash, first_name, last_name, savings_goal])
 
 def get_user_id(email):
     rows = sql_select("SELECT id FROM users WHERE email = %s", [email])
@@ -128,11 +129,12 @@ def get_user(user_id):
     id = rows[0]["id"]
     email = rows[0]["email"]
     password_hash = rows[0]["password_hash"]
-    name = rows[0]["name"]
+    first_name = rows[0]["first_name"]
+    last_name = rows[0]["last_name"]
     friend_ids = rows[0]["friend_ids"]
     savings_goal = rows[0]["savings_goal"]
 
-    user = User(id, email, password_hash, name, friend_ids, savings_goal)
+    user = User(id, email, password_hash, first_name, last_name, friend_ids, savings_goal)
 
     return user
 
@@ -142,10 +144,11 @@ def get_all_users():
     return users
 
 class Post:
-    def __init__(self, id, user_id, name, savings_amount, description, likes, comments):
+    def __init__(self, id, user_id, first_name, last_name, savings_amount, description, likes, comments):
         self.id = id
         self.user_id = user_id
-        self.name = name
+        self.first_name = first_name
+        self.last_name = last_name
         self.savings_amount = savings_amount
         self.description = description
         self.likes = likes
@@ -165,20 +168,21 @@ class Post:
 
 def create_post(user_id, savings_amount, description):
     user = get_user(user_id)
-    sql_write("INSERT INTO posts (user_id, name, savings_amount, description, likes, comments) VALUES (%s, %s, %s, %s, ARRAY[]::integer[], ARRAY[]::text[])", [user_id, user.name, savings_amount, description])
+    sql_write("INSERT INTO posts (user_id, first_name, last_name savings_amount, description, likes, comments) VALUES (%s, %s, %s, %s, %s, ARRAY[]::integer[], ARRAY[]::text[])", [user_id, user.first_name, user.last_name, savings_amount, description])
 
 def get_post(post_id):
     rows = sql_select("SELECT * FROM posts WHERE id = %s", [post_id])
 
     id = rows[0]["id"]
     user_id = rows[0]["user_id"]
-    name = get_user(user_id).name
+    first_name = get_user(user_id).first_name
+    last_name = get_user(user_id).last_name
     savings_amount = rows[0]["savings_amount"]
     description = rows[0]["description"]
     likes = rows[0]["likes"]
     comments = rows[0]["comments"]
 
-    post = Post(id, user_id, name, savings_amount, description, likes, comments)
+    post = Post(id, user_id, first_name, last_name, savings_amount, description, likes, comments)
 
     return post
 

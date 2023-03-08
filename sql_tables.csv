@@ -1,25 +1,38 @@
-﻿https://tableconvert.com/excel-to-sql,,,,,,
-,,,,,,
-users,,,,,,
-email,password_hash,name,friend_ids,savings_goal,,
- michael.yj.zhao@gmail.com , pbkdf2:sha256:260000$2RXR7ssqOh8HHsFA$a51e5dfa4c3ff976ca26fc785b65efec79b196e03364b1ba75fba0fcdccfa03e , Michael  Zhao ,[2],1100,,
- johnsmith@example.com     , pbkdf2:sha256:260000$RZyGA6GZYZcAmy2Q$8ca49a18e53a66ce366b08f7e1d33b7ae7d234996daa6468b8aa99e012dede17 , John Smith    ,[1],1000,,
-,,,,,,
-transactions,,,,,,
-date,user_id,transaction_type,description,amount,category,type
-1/2/2023,1,Income,Work salary,2000,Work,Income
-3/2/2023,1,Income,Dividends,500,Investment,Income
-8/2/2023,1,Income,Work salary,2000,Work,Salary
-11/2/2023,1,Expense,Drinks at Manchuria,100,Eating out,Splurg
-21/2/2023,1,Expense,Dinner at Farmers Daughter,150,Eating out,Splurg
-3/3/2023,1,Expense,Netflix,15,Entertainment,Splurg
-3/3/2023,2,Income,Work salary,1500,Work,Salary
-13/3/2023,2,Income,Work salary,1500,Work,Salary
-13/3/2023,2,Expense,Uber eats,35,Eating out,Splurg
-23/3/2023,2,Expense,Gym membership,27,Health,Essentials
-,,,,,,
-,,,,,,
-friends,,,,,,
-user_id,friend_id,,,,,
-1,2,,,,,
-2,1,,,,,
+﻿https://tableconvert.com/excel-to-sql,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+users,,,,,,,,users,,,,,,
+email,password_hash,name,friend_ids,savings_goal,,,,email,password_hash,name,friend_ids,savings_goal,,
+michael.yj.zhao@gmail.com ,pbkdf2:sha256:260000$CtGmXxAknSIcQIAA$fc1c9db9acc98b4cc5dc2c291e18c970e0e82463e22442edf6d03bc7e0d29ee7,Michael Zhao,"{2,3}",600,,,,michael.yj.zhao@gmail.com,pbkdf2:sha256:260000$CtGmXxAknSIcQIAA$fc1c9db9acc98b4cc5dc2c291e18c970e0e82463e22442edf6d03bc7e0d29ee7,Michael Zhao,"{2,3}",600,,
+johnsmith@example.com     ,pbkdf2:sha256:260000$CtGmXxAknSIcQIAA$fc1c9db9acc98b4cc5dc2c291e18c970e0e82463e22442edf6d03bc7e0d29ee7,John Smith,{1},500,,,,johnsmith@example.com,pbkdf2:sha256:260000$CtGmXxAknSIcQIAA$fc1c9db9acc98b4cc5dc2c291e18c970e0e82463e22442edf6d03bc7e0d29ee7,John Smith,{1},500,,
+marysmith@example.com,pbkdf2:sha256:260000$CtGmXxAknSIcQIAA$fc1c9db9acc98b4cc5dc2c291e18c970e0e82463e22442edf6d03bc7e0d29ee7,Mary Smith,{1},550,,,,marysmith@example.com,pbkdf2:sha256:260000$CtGmXxAknSIcQIAA$fc1c9db9acc98b4cc5dc2c291e18c970e0e82463e22442edf6d03bc7e0d29ee7,Mary Smith,{1},550,,
+,,,,,,,,,,,,,,
+transactions,,,,,,,,transactions,,,,,,
+date,user_id,transaction_type,description,amount,category,type,,date,user_id,transaction_type,description,amount,category,type
+2023-02-01,1,Income,Work salary,2000,Work,Income,,44958,1,Income,Work salary,2000,Work,Income
+2023-02-03,1,Income,Dividends,500,Investment,Income,,44960,1,Income,Dividends,500,Investment,Income
+2023-02-08,1,Income,Work salary,2000,Work,Income,,44965,1,Income,Work salary,2000,Work,Income
+2023-02-11,1,Expense,Drinks at Manchuria,100,Eating out,Splurg,,44968,1,Expense,Drinks at Manchuria,100,Eating out,Splurg
+2023-02-21,1,Expense,Dinner at Farmers Daughter,150,Eating out,Splurg,,44978,1,Expense,Dinner at Farmers Daughter,150,Eating out,Splurg
+2023-03-03,1,Expense,Netflix,15,Entertainment,Splurg,,44988,1,Expense,Netflix,15,Entertainment,Splurg
+2023-03-03,2,Income,Work salary,1500,Work,Income,,44988,2,Income,Work salary,1500,Work,Income
+2023-03-13,2,Income,Work salary,1500,Work,Income,,44998,2,Income,Work salary,1500,Work,Income
+2023-03-13,2,Expense,Uber eats,35,Eating out,Splurg,,44998,2,Expense,Uber eats,35,Eating out,Splurg
+2023-03-23,2,Expense,Gym membership,27,Health,Essentials,,45008,2,Expense,Gym membership,27,Health,Essentials
+2023-02-01,3,Income,Netflix,27,Entertainment,Splurg,,44958,3,Income,Netflix,27,Entertainment,Splurg
+2023-02-03,3,Expense,Work salary,1000,Work,Income,,44960,3,Expense,Work salary,1000,Work,Income
+2023-02-08,3,Expense,Work salary,500,Work,Income,,44965,3,Expense,Work salary,500,Work,Income
+2023-02-11,3,Income,Uber eats,80,Eating out,Splurg,,44968,3,Income,Uber eats,80,Eating out,Splurg
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+posts,,,,,,,,posts,,,,,,
+user_id,name,picture_path,likes,comments,description,,,user_id,name,picture_path,likes,comments,description,
+1,Michael Zhao,300,"{2,3}","{'Great job', 'Congratulations'}",Good month!,,,1,Michael Zhao,300,"{2,3}","{'Great job', 'Congratulations'}",Good month!,
+1,Michael Zhao,250,{2},{'Nice one'},Very happy with this one.,,,1,Michael Zhao,250,{2},{'Nice one'},Very happy with this one.,
+2,John Smith,270,{1},"{'+1', 'Amazing!'}",Good first month,,,2,John Smith,270,{1},"{'+1', 'Amazing!'}",Good first month,
+3,Mary Smith,265,{1},"{'Nice, Mary!'}",Happy with this.,,,3,Mary Smith,265,{1},"{'Nice, Mary!'}",Happy with this.,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,

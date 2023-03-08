@@ -1,6 +1,6 @@
-INSERT INTO users (email, password_hash, name, friend_ids, savings_goal) VALUES ('michael.yj.zhao@gmail.com', 'pbkdf2:sha256:260000$CtGmXxAknSIcQIAA$fc1c9db9acc98b4cc5dc2c291e18c970e0e82463e22442edf6d03bc7e0d29ee7', 'Michael Zhao', ARRAY[2,3]::integer[], '600');
-INSERT INTO users (email, password_hash, name, friend_ids, savings_goal) VALUES ('johnsmith@example.com', 'pbkdf2:sha256:260000$CtGmXxAknSIcQIAA$fc1c9db9acc98b4cc5dc2c291e18c970e0e82463e22442edf6d03bc7e0d29ee7', 'John Smith', ARRAY[1]::integer[], '500');
-INSERT INTO users (email, password_hash, name, friend_ids, savings_goal) VALUES ('marysmith@example.com', 'pbkdf2:sha256:260000$CtGmXxAknSIcQIAA$fc1c9db9acc98b4cc5dc2c291e18c970e0e82463e22442edf6d03bc7e0d29ee7', 'Mary Smith', ARRAY[1]::integer[], '550');
+INSERT INTO users (email, password_hash, first_name, last_name, friend_ids, savings_goal) VALUES ('michael.yj.zhao@gmail.com', 'pbkdf2:sha256:260000$CtGmXxAknSIcQIAA$fc1c9db9acc98b4cc5dc2c291e18c970e0e82463e22442edf6d03bc7e0d29ee7', 'Michael', 'Zhao', ARRAY[2,3]::integer[], '600');
+INSERT INTO users (email, password_hash, first_name, last_name, friend_ids, savings_goal) VALUES ('johnsmith@example.com', 'pbkdf2:sha256:260000$CtGmXxAknSIcQIAA$fc1c9db9acc98b4cc5dc2c291e18c970e0e82463e22442edf6d03bc7e0d29ee7', 'John', 'Smith', ARRAY[1]::integer[], '500');
+INSERT INTO users (email, password_hash, first_name, last_name, friend_ids, savings_goal) VALUES ('marysmith@example.com', 'pbkdf2:sha256:260000$CtGmXxAknSIcQIAA$fc1c9db9acc98b4cc5dc2c291e18c970e0e82463e22442edf6d03bc7e0d29ee7', 'Mary', 'Smith', ARRAY[1]::integer[], '550');
 
 INSERT INTO transactions (date, user_id, transaction_type, description, amount, category, type) VALUES ('2023-02-01', '1', 'Income', 'Work salary', '2000', 'Work', 'Income');
 INSERT INTO transactions (date, user_id, transaction_type, description, amount, category, type) VALUES ('2023-02-03', '1', 'Income', 'Dividends', '500', 'Investment', 'Income');
