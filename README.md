@@ -50,19 +50,17 @@ Social expense tracking to help you meet you saving goals
 [Insert Link]
 
 ## Next steps:
-- Allow users to post their last 7 days of savings
+- Allow users to delete posts and comments
+- Replace user_id in likes with user names
+- Create user display pages
 - Make comments an array of comment objects
+
+- Allow users to upload profile pictures
 - When users add friends, remove the friend icon
 - Allow users to search for friends
 - Replace savings amount with Pie chart or % over or under savings target
 - Enable search bar
-- Allow users to delete posts and comments
-- Replace user_id in likes with user names
-- Create user display pages
-- Allow users to enter transactions page
 - Include like and comment notifications
-- Include profile pictures
-- Debug why two copies of posts and search bar appear
 
 ## Due Date:
 11/03/2023

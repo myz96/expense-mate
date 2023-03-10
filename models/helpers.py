@@ -191,7 +191,7 @@ def get_post(post_id):
     return post
 
 def get_feed_posts(user_id):
-    rows = sql_select("SELECT posts.id AS post_id FROM posts LEFT JOIN users ON posts.user_id = users.id WHERE %s = ANY(users.friend_ids)", [user_id])
+    rows = sql_select("SELECT posts.id AS post_id FROM posts LEFT JOIN users ON posts.user_id = users.id WHERE %s = ANY(users.friend_ids) ORDER BY posts.date DESC", [user_id])
 
     posts = [get_post(row['post_id']) for row in rows]
 

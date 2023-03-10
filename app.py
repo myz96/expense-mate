@@ -15,7 +15,12 @@ def index():
     user = get_user(user_id)
     posts = get_feed_posts(user_id)
     users = get_all_users()
-    return render_template("feed.html", posts=posts, user=user, users=users)
+
+    weekly_savings_goal = user.savings_goal
+    latest_weekly_expenses = get_weekly_expenses(user_id)[1][0]
+    latest_weekly_income = get_weekly_income(user_id)[1][0]
+    savings_amount = (latest_weekly_income - latest_weekly_expenses) - weekly_savings_goal
+    return render_template("feed.html", posts=posts, user=user, users=users, savings_amount=savings_amount)
 
 @app.route('/dashboard')
 def my_dashboard():
@@ -112,12 +117,6 @@ def add_transaction_action():
     else:
         return redirect('/')
 
-@app.route('/edit_transaction')
-def edit_transaction_page():
-    transaction_id = request.args.get('transaction_id')
-    transaction = get_transaction(transaction_id)
-    return render_template('edit_transaction.html', transaction=transaction)
-
 @app.route('/edit_transaction_action', methods=['POST'])
 def edit_transaction_action():
     user_id = session.get('user_id', '')
@@ -149,26 +148,10 @@ def sign_up_action():
     last_name = request.form.get('last_name')
     email = request.form.get('email')
     password = request.form.get('password')
-    password_confirmation = request.form.get('password_confirmation')
-    passwords_match = password == password_confirmation
     savings_goal = request.form.get('savings_goal')
-
-    if passwords_match:
-        password_hash = generate_password_hash(password)
-        create_user(email, password_hash, first_name, last_name, savings_goal)
-        return redirect('/login')
-    else:
-        passwords_match = False
-        return render_template('sign_up.html', passwords_match=passwords_match)
-
-@app.route('/settings')
-def settings_page():
-    user_id = session.get('user_id', '')
-    if user_id:
-        user = get_user(user_id)
-        return render_template('settings.html', user=user, passwords_match = True)
-    else:
-        return redirect('/login')
+    password_hash = generate_password_hash(password)
+    create_user(email, password_hash, first_name, last_name, savings_goal)
+    return redirect('/login')
 
 @app.route('/settings_action', methods=['POST'])
 def settings_action():
@@ -183,7 +166,7 @@ def settings_action():
     password_hash = generate_password_hash(password)
     sql_write("UPDATE users SET email =%s, password_hash = %s, first_name = %s, last_name = %s, savings_goal = %s WHERE id = %s", [email, password_hash, first_name, last_name, savings_goal, user_id])
 
-    return redirect('/login')
+    return redirect('/')
 
 @app.route('/login')
 def login_page():
@@ -209,36 +192,21 @@ def check_login():
             session['user_id'] = user.id
             return redirect('/')
         else:
-            return render_template('login.html', wrong_password=True)
+            return render_template('login.html')
 
 @app.route('/logout')
 def logout():
     session.pop('user_id', None)
     return redirect('/')
 
-@app.route('/create_post')
-def create_post_page():
-    user_id = session.get('user_id', '')
-    if not user_id:
-        return redirect('/login')
-    user = get_user(user_id)
-    weekly_savings_goal = user.savings_goal
-    latest_weekly_expenses = get_weekly_expenses(user_id)[1][0]
-    latest_weekly_income = get_weekly_income(user_id)[1][0]
-    savings_amount = (latest_weekly_income - latest_weekly_expenses) - weekly_savings_goal
-
-    return render_template('create_post.html', user=user, savings_amount=savings_amount)    
-
 @app.route('/create_post_action', methods=['POST'])
 def create_post_action():
     user_id = session.get('user_id', '')
     if not user_id:
         return redirect('/login')
-
     savings_amount = request.form.get('savings_amount', '')
     description = request.form.get('description', '')
     create_post(user_id, savings_amount, description)
-
     return redirect('/')
 
 @app.route('/like_post')
