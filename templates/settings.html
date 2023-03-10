@@ -4,17 +4,105 @@
 Settings
 {% endblock title %}
 
-{% block content %}
-<form action="/settings_action" method="POST">
-    <label for="name">Name: </label><input type="text" name="name" id="name">
-    <label for="email">Email: </label><input type="text" name="email" id="email">
-    <label for="password">Password: </label><input type="password" name="password" id="password">
-    <label for="password_confirmation">Confirm Password: </label><input type="password" name="password_confirmation" id="password_confirmation">
-    <label for="savings_goal">Weekly Savings Goal: </label><input type="number" name="savings_goal" id="savings_goal">
-    <input type="submit">
-</form>
-{% if not passwords_match %}
-<p style="color: red;">Passwords do not match. Please try again.</p>
-{% endif %}
+{% block ui %}{{ super() }}{% endblock %}
+
+{% block main %}
+<div class="container-fluid">
+    <div class="row justify-content-evenly">
+        <!-- ================= Sidebar ================= -->
+        <div class="col-12 col-lg-3">
+            <div
+            class="d-none d-xxl-block h-100 fixed-top overflow-hidden scrollbar"
+            style="max-width: 360px; width: 100%; z-index: 4"
+            >
+            <ul
+                class="navbar-nav mt-4 ms-3 d-flex flex-column pb-5 mb-5"
+                style="padding-top: 56px"
+            >
+                <!-- Dashboard -->
+                <li class="dropdown-item p-1 rounded">
+                <a
+                    href="/dashboard"
+                    class="
+                    d-flex
+                    align-items-center
+                    text-decoration-none text-dark
+                    "
+                >
+                    <div class="p-2">
+                    <img
+                        src="https://cdn-icons-png.flaticon.com/128/423/423786.png"
+                        alt="from fb"
+                        class="rounded-circle"
+                        style="width: 38px; height: 38px; object-fit: cover"
+                    />
+                    </div>
+                    <div>
+                    <p class="m-0">Dashboard</p>
+                    </div>
+                </a>
+                </li>
+                <!-- Transactions -->
+                <li class="dropdown-item p-1 rounded">
+                <a
+                    href="/transaction"
+                    class="
+                    d-flex
+                    align-items-center
+                    text-decoration-none text-dark
+                    "
+                >
+                    <div class="p-2">
+                        <img
+                        src="https://cdn-icons-png.flaticon.com/512/401/401176.png"
+                        alt="from fb"
+                        class="rounded-circle"
+                        style="width: 38px; height: 38px; object-fit: cover"
+                        />
+                    </div>
+                    <div>
+                    <p class="m-0">Transactions</p>
+                    </div>
+                </a>
+                </li>
+            </div>
+        </div>
+        <!-- ================= Main ================= -->
+        <div class="col-12 col-lg-6 pb-5">
+            <div class="row mt-5"></div>
+            <div class="row mt-4"></div>
+            <div class="row mt-4"></div>
+
+            <!-- Edit user settings -->
+            <div style="max-width: 28rem; width: 100%" class="mx-auto">
+                <div class="bg-white shadow rounded p-3 input-group-lg">
+                    <form action="/settings_action" id="settings_form" method="POST">
+                        <div class="text-center my-3">
+                            <h2 class="modal-title">Edit User Profile</h2>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col">
+                                <input type="text" name="first_name" id="first_name" placeholder="{{ user.first_name }}" class="form-control">
+                            </div>
+                            <div class="col">
+                                <input type="text" name="last_name" id="last_name" placeholder="{{ user.last_name }}" class="form-control">
+                            </div>
+                        </div>
+                        <input type="email" name="email" id="email" name="email" class="form-control my-3" placeholder="{{ user.email }}">
+                        <input type="password" name="password" id="password" name="password" class="form-control my-3" placeholder="Enter Password">
+                        <input type="number" name="savings_goal" id="savings_goal" name="savings_goal" class="form-control my-3" placeholder="{{ user.savings_goal }}">
+                        <div class="text-center mt-3">
+                            <button type="button" class="btn btn-success btn-lg" data-bs-dismiss="modal" onclick="submitSettingsForm()">Submit</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-3"></div>
+    </div>
+</div>
 
 {% endblock %}

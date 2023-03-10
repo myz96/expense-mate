@@ -85,16 +85,17 @@ def my_dashboard():
     else:
         return redirect('/login')
 
-@app.route('/add_transaction')
-def add_transaction_page():
+@app.route('/transaction')
+def transaction_page():
     user_id = session.get('user_id', '')
     if user_id:
         user = get_user(user_id)
-        return render_template('add_transaction.html', user=user)
+        transactions = get_all_transactions(user_id)
+        return render_template('transaction.html', user=user, transactions=transactions)
     else:
         return redirect('/login')
 
-@app.route('/add_transaction_action', methods=['POST'])
+@app.route('/transaction_action', methods=['POST'])
 def add_transaction_action():
     user_id = session.get('user_id', '')
     if user_id:
@@ -107,7 +108,7 @@ def add_transaction_action():
             category = request.form.get('category'), 
             type = request.form.get('type')
             )
-        return redirect('/')
+        return redirect('/transaction')
     else:
         return redirect('/')
 
@@ -130,7 +131,7 @@ def edit_transaction_action():
             category = request.form.get('category'),
             type = request.form.get('type')                 
             )
-        return redirect('/')
+        return redirect('/transaction')
     else:
         return redirect('/')
 
@@ -138,24 +139,9 @@ def edit_transaction_action():
 def delete_confirmation():
     user_id = session.get('user_id', '')
     if user_id:
-        user = get_user(user_id)
         transaction_id = request.args.get('transaction_id')
-        transaction = get_transaction(transaction_id)
-        return render_template('delete_transaction.html', transaction=transaction, user=user)
-
-@app.route('/delete_transaction_action')
-def delete_transaction_action():
-    transaction_id = request.args.get('id')
-    delete_transaction(transaction_id)
-    return redirect('/')
-
-@app.route('/sign_up')
-def sign_up_page():
-    user_id = session.get('user_id', '')
-    if user_id:
-        redirect('/')
-    else:
-        return render_template('sign_up.html', passwords_match = True)
+        delete_transaction(transaction_id)
+        return redirect('/transaction')
 
 @app.route('/sign_up_action', methods=['POST'])
 def sign_up_action():
@@ -191,18 +177,13 @@ def settings_action():
     last_name = request.form.get('last_name')
     email = request.form.get('email')
     password = request.form.get('password')
-    password_confirmation = request.form.get('password_confirmation')
-    passwords_match = password == password_confirmation
     savings_goal = request.form.get('savings_goal')
+    print("-----------here")
+    print(first_name) 
+    password_hash = generate_password_hash(password)
+    sql_write("UPDATE users SET email =%s, password_hash = %s, first_name = %s, last_name = %s, savings_goal = %s WHERE id = %s", [email, password_hash, first_name, last_name, savings_goal, user_id])
 
-    if passwords_match:
-        password_hash = generate_password_hash(password)
-        sql_write("UPDATE users SET email =%s, password_hash = %s, first_name = %s, last_name = %s, savings_goal = %s WHERE id = %s", [email, password_hash, first_name, last_name, savings_goal, user_id])
-
-        return redirect('/login')
-    else:
-        passwords_match = False
-        return render_template('settings.html', passwords_match=passwords_match)
+    return redirect('/login')
 
 @app.route('/login')
 def login_page():

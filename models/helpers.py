@@ -171,7 +171,7 @@ class Post:
 def create_post(user_id, savings_amount, description):
     user = get_user(user_id)
     current_date = datetime.date.today()
-    sql_write("INSERT INTO posts (date, user_id, first_name, last_name savings_amount, description, likes, comments) VALUES (%s, %s, %s, %s, %s, %s, ARRAY[]::integer[], ARRAY[]::text[])", [current_date, user_id, user.first_name, user.last_name, savings_amount, description])
+    sql_write("INSERT INTO posts (date, user_id, first_name, last_name, savings_amount, description, likes, comments) VALUES (%s, %s, %s, %s, %s, %s, ARRAY[]::integer[], ARRAY[]::text[])", [current_date, user_id, user.first_name, user.last_name, savings_amount, description])
 
 def get_post(post_id):
     rows = sql_select("SELECT * FROM posts WHERE id = %s", [post_id])

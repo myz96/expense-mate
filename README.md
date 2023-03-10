@@ -50,9 +50,9 @@ Social expense tracking to help you meet you saving goals
 [Insert Link]
 
 ## Next steps:
-- Add transactions page
-- Add user settings page
+- Allow users to post their last 7 days of savings
 - Make comments an array of comment objects
+- When users add friends, remove the friend icon
 - Allow users to search for friends
 - Replace savings amount with Pie chart or % over or under savings target
 - Enable search bar

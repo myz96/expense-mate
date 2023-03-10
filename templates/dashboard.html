@@ -115,36 +115,6 @@ My Dashboard
                     </div>
                 </div>
             
-                <div class="row mt-4">
-                    <div class="col-lg-12">
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th scope="col">Date</th>
-                            <th scope="col">Description</th>
-                            <th scope="col">Amount</th>
-                            <th scope="col">Category</th>
-                            <th scope="col">Type</th>
-                            <th scope="col">Edit</th>
-                            <th scope="col">Delete</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for transaction in transactions %}
-                        <tr>
-                            <td>{{ transaction.date.day}}-{{ transaction.date.strftime('%B')}}</td>
-                            <td>{{ transaction.description }}</td>
-                            <td>{{ transaction.amount }}</td>
-                            <td>{{ transaction.category }}</td>
-                            <td>{{ transaction.type }}</td>
-                            <td class="d-flex justify-content-center align-items-center"><a href="/edit_transaction?transaction_id={{ transaction.id }}"><i class="fas fa-pen text-muted"></i></a></td>
-                            <td><a href="/delete_transaction?transaction_id={{ transaction.id }}"><i class="fas fa-trash text-muted"></i></a></td>
-                        </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                    </div>
-            </div>
         </div>
         </div>
         <!-- ================= Right Sidebar ================= -->

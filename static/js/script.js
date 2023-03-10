@@ -13,6 +13,21 @@ const submitCreatePost = () => {
     form.submit()
 }
 
+const submitAddTransactionForm = () => {
+    let form = document.querySelector("#transaction_form")
+    form.submit()
+}
+
+const submitEditTransactionForm = () => {
+    let form = document.querySelector("#edit_transaction_form")
+    form.submit()
+}
+
+const submitSettingsForm = () => {
+    let form = document.querySelector("#settings_form")
+    form.submit()
+}
+
 const submitComment = (e) => {
     if (e.keyCode === 13) {
         let form = document.querySelector("#add_comment_form")

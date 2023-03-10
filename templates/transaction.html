@@ -1,0 +1,211 @@
+{% extends "index.html" %}
+
+{% block title %}
+Transactions
+{% endblock title %}
+
+{% block ui %}
+{{ super() }}
+{% endblock %}
+
+{% block main %}
+<div class="container-fluid">
+    <div class="row justify-content-evenly">
+        <!-- ================= Sidebar ================= -->
+        <div class="col-12 col-lg-3">
+            <div
+            class="d-none d-xxl-block h-100 fixed-top overflow-hidden scrollbar"
+            style="max-width: 360px; width: 100%; z-index: 4"
+            >
+            <ul
+                class="navbar-nav mt-4 ms-3 d-flex flex-column pb-5 mb-5"
+                style="padding-top: 56px"
+            >
+                <!-- Dashboard -->
+                <li class="dropdown-item p-1 rounded">
+                <a
+                    href="/dashboard"
+                    class="
+                    d-flex
+                    align-items-center
+                    text-decoration-none text-dark
+                    "
+                >
+                    <div class="p-2">
+                    <img
+                        src="https://cdn-icons-png.flaticon.com/128/423/423786.png"
+                        alt="from fb"
+                        class="rounded-circle"
+                        style="width: 38px; height: 38px; object-fit: cover"
+                    />
+                    </div>
+                    <div>
+                    <p class="m-0">Dashboard</p>
+                    </div>
+                </a>
+                </li>
+                <!-- Transactions -->
+                <li class="dropdown-item p-1 rounded">
+                <a
+                    href="/transaction"
+                    class="
+                    d-flex
+                    align-items-center
+                    text-decoration-none text-dark
+                    "
+                >
+                    <div class="p-2">
+                        <img
+                        src="https://cdn-icons-png.flaticon.com/512/401/401176.png"
+                        alt="from fb"
+                        class="rounded-circle"
+                        style="width: 38px; height: 38px; object-fit: cover"
+                        />
+                    </div>
+                    <div>
+                    <p class="m-0">Transactions</p>
+                    </div>
+                </a>
+                </li>
+            </div>
+        </div>
+        <!-- ================= Main ================= -->
+        <div class="col-12 col-lg-6 pb-5">
+            <div class="row mt-5"></div>
+            <div class="row mt-4"></div>
+
+            <!-- Add Transaction -->
+            <div class="text-center my-4">
+                <button class="btn btn-success btn-lg" data-bs-toggle="modal" data-bs-target="#addTransaction">Add Transaction</button>
+            </div>
+
+            <!-- Add Transaction modal -->
+            <div class="modal fade" id="addTransaction" tabindex="-1" aria-labelledby="addTransactionLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2 class="modal-title" id="addTransactionLabel">Add Transaction</h2>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="/transaction_action" id="transaction_form" method="POST">
+                                <div class="row my-3">
+                                    <input type="date" name="date" id="date" class="px-3 form-control rounded-pill">
+                                </div>
+                                <div class="row my-3 d-flex">
+                                    <div class="col">
+                                        <div class="border rounded p-2">
+                                          <label class="form-check-label" for="income">Income </label>
+                                          <input class="form-check-input" type="radio" name="transaction_type" id="income" value="Income"/>
+                                        </div>
+                                      </div>
+                                      <div class="col">
+                                        <div class="border rounded p-2">
+                                          <label class="form-check-label" for="expense">Expense </label>
+                                          <input class="form-check-input" type="radio" name="transaction_type" id="expense" value="Expense"/>
+                                        </div>
+                                      </div>
+                                </div>
+                                <input type="text" name="description" id="description" placeholder="Add a description" class="form-control my-3">
+                                <!-- amount -->
+                                <input type="number" name="amount" id="amount" placeholder="Transaction amount" class="form-control my-3">
+                                <!-- category  -->
+                                <input type="text" name="category" id="category" placeholder="Transaction category" class="form-control my-3">
+                                <!-- type -->
+                                <select class="form-select">
+                                    <option value="Income">Income</option>
+                                    <option value="Splurg">Splurg</option>
+                                    <option value="Essentials">Essentials</option>
+                                  </select>
+                                <div class="text-center mt-3">
+                                    <button type="button" class="btn btn-success btn-lg" data-bs-dismiss="modal" onclick="submitAddTransactionForm()">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-2"></div>
+            <div class="row mt-4">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Date</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Amount</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Edit</th>
+                        <th scope="col">Delete</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for transaction in transactions %}
+                    <tr>
+                        <td>{{ transaction.date.day}}-{{ transaction.date.strftime('%B')}}</td>
+                        <td>{{ transaction.description }}</td>
+                        <td>{{ transaction.amount }}</td>
+                        <td>{{ transaction.category }}</td>
+                        <td>{{ transaction.type }}</td>
+                        <td class="d-flex justify-content-center align-items-center"><a href="/edit_transaction?transaction_id={{ transaction.id }}" data-bs-toggle="modal" data-bs-target="#editTransaction"><i class="fas fa-pen text-muted"></i></a></td>
+                        <td><a href="/delete_transaction?transaction_id={{ transaction.id }}"><i class="fas fa-trash text-muted"></i></a></td>
+                    </tr>
+
+                    <!-- Edit Transaction modal -->
+                    <div class="modal fade" id="editTransaction" tabindex="-1" aria-labelledby="editTransactionLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h2 class="modal-title" id="editTransactionLabel">Edit Transaction</h2>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="/edit_transaction_action" id="edit_transaction_form" method="POST">
+                                        <input type="hidden" name="id" id="id" value="{{ transaction.id }}">
+                                        <div class="row my-3">
+                                            <input type="date" name="date" id="date" class="px-3 form-control rounded-pill">
+                                        </div>
+                                        <input type="text" name="description" id="description" placeholder="Add a description" class="form-control my-3" placeholder="{{ transaction.description }}">
+                                        <input type="number" name="amount" id="amount" placeholder="Transaction amount" class="form-control my-3" placeholder="{{ transaction.amount }}">
+                                        <!-- category  -->
+                                        <input type="text" name="category" id="category" placeholder="Transaction category" class="form-control my-3" placeholder="{{ transaction.category }}">
+                                        <div class="row my-3 d-flex">
+                                            <div class="col">
+                                                <div class="border rounded p-2">
+                                                <label class="form-check-label" for="income">Income </label>
+                                                <input class="form-check-input" type="radio" name="transaction_type" id="income" value="Income"/>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="border rounded p-2">
+                                                <label class="form-check-label" for="expense">Expense </label>
+                                                <input class="form-check-input" type="radio" name="transaction_type" id="expense" value="Expense"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- type -->
+                                        <select class="form-select">
+                                            <option value="Income">Income</option>
+                                            <option value="Splurg">Splurg</option>
+                                            <option value="Essentials">Essentials</option>
+                                        </select>
+                                        <div class="text-center mt-3">
+                                            <button type="button" class="btn btn-success btn-lg" data-bs-dismiss="modal" onclick="submitEditTransactionForm()">Submit</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-3"></div>
+    </div>
+</div>
+
+{% endblock %}
