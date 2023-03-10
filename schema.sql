@@ -28,8 +28,10 @@ CREATE TABLE transactions (
 
 CREATE TABLE posts (
   id SERIAL PRIMARY KEY,
+  date DATE,
   user_id integer,
-  name VARCHAR(250),
+  first_name VARCHAR(512),
+  last_name VARCHAR(512),
   savings_amount integer, -- Replace with URL string to donut graph that shows savings over and above target
   description TEXT,
   likes integer[],

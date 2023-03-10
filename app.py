@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, session
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import generate_password_hash
 import plotly.graph_objects as go
 from datetime import date, timedelta
 from models.helpers import *
@@ -15,7 +15,7 @@ def index():
     user = get_user(user_id)
     posts = get_feed_posts(user_id)
     users = get_all_users()
-    return render_template("index.html", posts=posts, user=user, users=users)
+    return render_template("feed.html", posts=posts, user=user, users=users)
 
 @app.route('/dashboard')
 def my_dashboard():

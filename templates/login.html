@@ -16,7 +16,6 @@ Login
     <!-- login form -->
     <div style="max-width: 28rem; width: 100%" class="mx-auto">
         <div class="bg-white shadow rounded p-3 input-group-lg">
-            <!-- <form action="/login_action" id="login_form" method="POST"> -->
             <form action="{{ url_for('check_login') }}" id="login_form" method="POST">
                 <input type="text" class="form-control my-3" name="email" id="email" placeholder="Email address">
                 <input type="password" class="form-control my-3" name="password" id="password" placeholder="Password">    
@@ -76,14 +75,4 @@ Login
     </div>
 </footer>
 
-
-
-<!-- <form action="/login_action" method="POST">
-    <label for="email">Email: </label><input type="text" name="email" id="email">
-    <label for="password">Password: </label><input type="password" name="password" id="password">
-    <input type="submit">
-</form>
-{% if wrong_password %}
-<p style="color: red;">Email address or password is incorrect. Please try again.</p>
-{% endif %} -->
 {% endblock %}

@@ -17,7 +17,7 @@ INSERT INTO transactions (date, user_id, transaction_type, description, amount, 
 INSERT INTO transactions (date, user_id, transaction_type, description, amount, category, type) VALUES ('2023-02-08', '3', 'Expense', 'Work salary', '500', 'Work', 'Income');
 INSERT INTO transactions (date, user_id, transaction_type, description, amount, category, type) VALUES ('2023-02-11', '3', 'Income', 'Uber eats', '80', 'Eating out', 'Splurg');
 
-INSERT INTO posts (user_id, name, savings_amount, likes, comments, description) VALUES ('1', 'Michael Zhao', '300', ARRAY[2,3]::integer[], ARRAY['Great job','Congratulations']::text[], 'Good month!');
-INSERT INTO posts (user_id, name, savings_amount, likes, comments, description) VALUES ('1', 'Michael Zhao', '250', ARRAY[2]::integer[], ARRAY['Nice one!']::text[], 'Very happy with this one.');
-INSERT INTO posts (user_id, name, savings_amount, likes, comments, description) VALUES ('2', 'John Smith', '270', ARRAY[1]::integer[], ARRAY['+1', 'Amazing!']::text[], 'Good first month');
-INSERT INTO posts (user_id, name, savings_amount, likes, comments, description) VALUES ('3', 'Mary Smith', '265', ARRAY[1]::integer[], ARRAY['Nice Mary!'], 'Happy with this.');
+INSERT INTO posts (date, user_id, first_name, last_name, savings_amount, likes, comments, description) VALUES ('2023-02-11', '1', 'Michael', 'Zhao', '300', ARRAY[2,3]::integer[], ARRAY['Great job','Congratulations']::text[], 'Good month!');
+INSERT INTO posts (date, user_id, first_name, last_name, savings_amount, likes, comments, description) VALUES ('2023-02-11', '1', 'Michael', ' Zhao', '250', ARRAY[2]::integer[], ARRAY['Nice one!']::text[], 'Very happy with this one.');
+INSERT INTO posts (date, user_id, first_name, last_name, savings_amount, likes, comments, description) VALUES ('2023-02-11', '2', 'John', ' Smith', '270', ARRAY[1]::integer[], ARRAY['+1', 'Amazing!']::text[], 'Good first month');
+INSERT INTO posts (date, user_id, first_name, last_name, savings_amount, likes, comments, description) VALUES ('2023-02-11', '3', 'Mary', ' Smith', '265', ARRAY[1]::integer[], ARRAY['Nice Mary!'], 'Happy with this.');

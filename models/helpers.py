@@ -1,5 +1,6 @@
 import psycopg2
 from psycopg2.extras import RealDictCursor
+import datetime
 from werkzeug.security import check_password_hash
 
 def sql_select(query, parameters):
@@ -144,8 +145,9 @@ def get_all_users():
     return users
 
 class Post:
-    def __init__(self, id, user_id, first_name, last_name, savings_amount, description, likes, comments):
+    def __init__(self, id, date, user_id, first_name, last_name, savings_amount, description, likes, comments):
         self.id = id
+        self.date = date
         self.user_id = user_id
         self.first_name = first_name
         self.last_name = last_name
@@ -168,12 +170,14 @@ class Post:
 
 def create_post(user_id, savings_amount, description):
     user = get_user(user_id)
-    sql_write("INSERT INTO posts (user_id, first_name, last_name savings_amount, description, likes, comments) VALUES (%s, %s, %s, %s, %s, ARRAY[]::integer[], ARRAY[]::text[])", [user_id, user.first_name, user.last_name, savings_amount, description])
+    current_date = datetime.date.today()
+    sql_write("INSERT INTO posts (date, user_id, first_name, last_name savings_amount, description, likes, comments) VALUES (%s, %s, %s, %s, %s, %s, ARRAY[]::integer[], ARRAY[]::text[])", [current_date, user_id, user.first_name, user.last_name, savings_amount, description])
 
 def get_post(post_id):
     rows = sql_select("SELECT * FROM posts WHERE id = %s", [post_id])
 
     id = rows[0]["id"]
+    date = rows[0]["date"]
     user_id = rows[0]["user_id"]
     first_name = get_user(user_id).first_name
     last_name = get_user(user_id).last_name
@@ -182,7 +186,7 @@ def get_post(post_id):
     likes = rows[0]["likes"]
     comments = rows[0]["comments"]
 
-    post = Post(id, user_id, first_name, last_name, savings_amount, description, likes, comments)
+    post = Post(id, date, user_id, first_name, last_name, savings_amount, description, likes, comments)
 
     return post
 

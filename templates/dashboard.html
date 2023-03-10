@@ -1,72 +1,173 @@
-{% extends "base.html" %}
+{% extends "index.html" %}
 
 {% block title %}
 My Dashboard
-{% endblock title %}
-
-{% block content %}
-
-<div class="kpi-container">
-    <h2>Savings Goal</h2>
-    <p>${{ user.savings_goal }}</p>
-</div>
-<div class="kpi-container">
-    <h2> Savings Over Target </h2>
-    <p>${{ weekly_savings_above_goal }}</p>
-</div>
-<div class="kpi-container">
-    <h2>Income</h2>
-    <p>${{ latest_weekly_income }}</p>
-</div>
-<div class="kpi-container">
-    <h2>Expenses</h2>
-    <p>${{ latest_weekly_expenses }}</p>
-</div>
-
-<div class="chart">{{ pie_chart_src | safe }}</div>
-<div class="chart">{{ bar_chart_src | safe }}</div>
-
-<table>
-  <thead>
-    <th>
-        Date
-    </th>
-    <th>
-        Description
-    </th>
-    <th>
-        Amount
-    </th>
-    <th>
-        Category
-    </th>
-    <th>
-        Type
-    </th>
-    <th>
-        Edit
-    </th>
-    <th>
-        Delete
-    </th>
-  </thead>
-  <tbody>
-    {% for transaction in transactions %}
-    <tr>
-      <td>{{ transaction.date.day}}-{{ transaction.date.strftime('%B')}}</td>
-      <td>{{ transaction.description }}</td>
-      <td>{{ transaction.amount }}</td>
-      <td>{{ transaction.category }}</td>
-      <td>{{ transaction.type }}</td>
-      <td><a href="/edit_transaction?transaction_id={{ transaction.id }}">edit</a></td>
-      <td><a href="/delete_transaction?transaction_id={{ transaction.id }}">delete</td>
-    {% endfor %}
-  </tbody>
-</table>
-
 {% endblock %}
+
+{% block ui %}
+    {{ super() }}
+{% endblock %}
+
+
+{% block main %}
+<div class="container-fluid">
+    <div class="row justify-content-evenly">
+        <!-- ================= Sidebar ================= -->
+        <div class="col-12 col-lg-1">
+            <div
+            class="d-none d-xxl-block h-100 fixed-top overflow-hidden scrollbar"
+            style="max-width: 360px; width: 100%; z-index: 4"
+            >
+            <ul
+                class="navbar-nav mt-4 ms-3 d-flex flex-column pb-5 mb-5"
+                style="padding-top: 56px"
+            >
+                <!-- Dashboard -->
+                <li class="dropdown-item p-1 rounded">
+                <a
+                    href="/dashboard"
+                    class="
+                    d-flex
+                    align-items-center
+                    text-decoration-none text-dark
+                    "
+                >
+                    <div class="p-2">
+                    <img
+                        src="https://cdn-icons-png.flaticon.com/128/423/423786.png"
+                        alt="from fb"
+                        class="rounded-circle"
+                        style="width: 38px; height: 38px; object-fit: cover"
+                    />
+                    </div>
+                    <div>
+                    <p class="m-0">Dashboard</p>
+                    </div>
+                </a>
+                </li>
+                <!-- Transactions -->
+                <li class="dropdown-item p-1 rounded">
+                <a
+                    href="#"
+                    class="
+                    d-flex
+                    align-items-center
+                    text-decoration-none text-dark
+                    "
+                >
+                    <div class="p-2">
+                        <img
+                        src="https://cdn-icons-png.flaticon.com/512/401/401176.png"
+                        alt="from fb"
+                        class="rounded-circle"
+                        style="width: 38px; height: 38px; object-fit: cover"
+                        />
+                    </div>
+                    <div>
+                    <p class="m-0">Transactions</p>
+                    </div>
+                </a>
+                </li>
+            </div>
+        </div>
+        <!-- ================= Main ================= -->
+        <div class="col-12 col-lg-6 pb-5">
+            <div class="container">
+
+                <div class="row mt-5"></div>
+
+                <div class="row mt-4">
+                    <div class="col-lg-4 col-md-4 col-sm-12">
+                    <div class="card text-center">
+                        <div class="card-body">
+                        <p class="card-title">Savings Over Target</p>
+                        <h2 class="card-text">${{ weekly_savings_above_goal }}</h2>
+                        </div>
+                    </div>
+                    </div>
+            
+                    <div class="col-lg-4 col-md-4 col-sm-12">
+                    <div class="card text-center">
+                        <div class="card-body">
+                        <p class="card-title">Income</p>
+                        <h2 class="card-text">${{ latest_weekly_income }}</h2>
+                        </div>
+                    </div>
+                    </div>
+            
+                    <div class="col-lg-4 col-md-4 col-sm-12">
+                    <div class="card text-center">
+                        <div class="card-body">
+                        <p class="card-title">Expenses</p>
+                        <h2 class="card-text">${{ latest_weekly_expenses }}</h2>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            
+                <div class="row mt-4">
+                    <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-body">
+                        {{ bar_chart_src | safe }}
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            
+                <div class="row mt-4">
+                    <div class="col-lg-12">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">Date</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Type</th>
+                            <th scope="col">Edit</th>
+                            <th scope="col">Delete</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for transaction in transactions %}
+                        <tr>
+                            <td>{{ transaction.date.day}}-{{ transaction.date.strftime('%B')}}</td>
+                            <td>{{ transaction.description }}</td>
+                            <td>{{ transaction.amount }}</td>
+                            <td>{{ transaction.category }}</td>
+                            <td>{{ transaction.type }}</td>
+                            <td class="d-flex justify-content-center align-items-center"><a href="/edit_transaction?transaction_id={{ transaction.id }}"><i class="fas fa-pen text-muted"></i></a></td>
+                            <td><a href="/delete_transaction?transaction_id={{ transaction.id }}"><i class="fas fa-trash text-muted"></i></a></td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    </div>
+            </div>
+        </div>
+        </div>
+        <!-- ================= Right Sidebar ================= -->
+        <div class="col-12 col-lg-3">
+            <div class="row mt-5"></div>            
+            <div class="row mt-4"></div>
+
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                    {{ pie_chart_src | safe }}
+                    </div>
+                </div>
+                </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+ 
+
 
 {% block script %}
 <script src="https://cdn.plot.ly/plotly-latest.min.js" async defer></script>
-
 {% endblock %}

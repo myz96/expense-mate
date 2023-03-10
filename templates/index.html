@@ -1,45 +1,263 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
-{% block title %}
-Home
-{% endblock title %}
+{% block title %}Xpense{% endblock %}
 
-{% block content %}
-<div class="friends">
-    <h2>Friends List:</h2>
-    <ul>
-    {% for account in users %}
-        <li><a href="/add_friend?friend_id={{ account.id }}">{{ account.name }}</a></li>
-    {% endfor %}
-    </ul>
-</div>
-
-<h2>Friend Posts</h2>
-{% for post in posts %}
-<div>
-    <h3>Savings over target: ${{ post.savings_amount }}</h3>
-    <p>ID: {{ post.id }}</p>
-    <p>Description: {{ post.description }}</p>
-    <p>User: {{ post.name }}</p>
-    <p>Likes:</p>
-    <ul>
-        {% for user_id in post.likes %}
-        <li>{{ user_id }}</li>
-        {% endfor %}
-    </ul>
-    <p>Comments:</p>
-    <ul>
-        {% for comment in post.comments %}
-        <li>{{ comment }}</li>
-        {% endfor %}
-    </ul>
-    <p><a href="/like_post?post_id={{ post.id }}">like</a></p>
-    <form action="/comment_post" method="POST">
-        <label for="comment">Comment</label>
-        <input type="text" name="comment" id="comment">
-        <input type="hidden" name="post_id" value="{{ post.id }}">
-        <input type="submit" value="Submit">
-    </form>
-</div>
-{% endfor %}
+{% block ui %}
+    <!-- ================= Appbar ================= -->
+    <div
+      class="bg-white d-flex align-items-center fixed-top shadow"
+      style="min-height: 56px; z-index: 5"
+    >
+      <div class="container-fluid">
+        <div class="row align-items-center">
+          <!-- search -->
+          <div class="col d-flex align-items-center">
+            <!-- logo -->
+            <a href="/">
+                <img src="{{ url_for('static', filename='img/logos/logo_short.png') }}" alt="logo" style="width:40px">
+            </a>
+            <!-- search bar -->
+            <div class="input-group ms-2" type="button">
+              <!-- mobile -->
+              <span
+                class="input-group-prepend d-lg-none"
+                id="searchMenu"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                data-bs-auto-close="outside"
+              >
+                <div
+                  class="input-group-text bg-gray border-0 rounded-circle"
+                  style="min-height: 40px"
+                >
+                  <i class="fas fa-search text-muted"></i>
+                </div>
+              </span>
+              <!-- desktop -->
+              <span
+                class="input-group-prepend d-none d-lg-block"
+                id="searchMenu"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                data-bs-auto-close="outside"
+              >
+                <div
+                  class="input-group-text bg-gray border-0 rounded-pill"
+                  style="min-height: 40px; min-width: 230px"
+                >
+                  <i class="fas fa-search me-2 text-muted"></i>
+                  <p class="m-0 fs-7 text-muted">Search for friends</p>
+                </div>
+              </span>
+              <!-- search menu -->
+              <ul
+                class="dropdown-menu overflow-auto border-0 shadow p-3"
+                aria-labelledby="searchMenu"
+                style="width: 20em; max-height: 600px"
+              >
+                <!-- search input -->
+                <li>
+                  <input
+                    type="text"
+                    class="rounded-pill border-0 bg-gray dropdown-item"
+                    placeholder="Search for friends..."
+                    autofocus
+                  />
+                </li>
+                <!-- search 1 -->
+                <li class="my-4">
+                  <div
+                    class="
+                      alert
+                      fade
+                      show
+                      dropdown-item
+                      p-1
+                      m-0
+                      d-flex
+                      align-items-center
+                      justify-content-between
+                    "
+                    role="alert"
+                  >
+                    <div class="d-flex align-items-center">
+                      <img
+                        src="https://source.unsplash.com/random/1"
+                        alt="avatar"
+                        class="rounded-circle me-2"
+                        style="width: 35px; height: 35px; object-fit: cover"
+                      />
+                      <p class="m-0">Lorem ipsum</p>
+                    </div>
+                    <button
+                      type="button"
+                      class="btn-close p-0 m-0"
+                      data-bs-dismiss="alert"
+                      aria-label="Open"
+                    ></button>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <!-- nav -->
+          <div class="col d-none d-xl-flex justify-content-center">
+            <!-- home -->
+            <div class="mx-4 nav__btn nav__btn-active">
+              <button type="button" class="btn px-4" onclick="window.location.href='/';">
+                <i class="fas fa-home text-muted fs-4"></i>
+              </button>
+            </div>
+            <!-- dashboard -->
+            <div class="mx-4 nav__btn">
+              <button type="button" class="btn px-4">
+                <i class="fas fa-solid fa-chart-simple text-muted fs-4" onclick="window.location.href='/dashboard';"></i>
+              </button>
+            </div>
+            <!-- transactions -->
+            <div class="mx-4 nav__btn">
+              <button type="button" class="btn px-4" onclick="window.location.href='#';">
+                <i
+                  type="button"
+                  class="fas fa-table text-muted fs-4"
+                >
+                </i>
+              </button>
+            </div>
+          </div>
+          <!-- menus -->
+          <div class="col d-flex align-items-center justify-content-end">
+            <!-- avatar -->
+            <div
+              class="align-items-center justify-content-center d-none d-xl-flex"
+            >
+              <img
+                src="https://source.unsplash.com/collection/happy-people"
+                class="rounded-circle me-2"
+                alt="avatar"
+                style="width: 38px; height: 38px; object-fit: cover"
+              />
+              <p class="m-0">{{ user.first_name }}</p>
+            </div>
+            <!-- notifications -->
+            <div
+              class="
+                rounded-circle
+                p-1
+                bg-gray
+                d-flex
+                align-items-center
+                justify-content-center
+                mx-2
+              "
+              style="width: 38px; height: 38px"
+              type="button"
+              id="notMenu"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              data-bs-auto-close="outside"
+            >
+              <i class="fas fa-bell"></i>
+            </div>
+            <!-- notifications dd -->
+            <ul
+              class="dropdown-menu border-0 shadow p-3"
+              aria-labelledby="notMenu"
+              style="width: 23em; max-height: 600px; overflow-y: auto"
+            >
+            </ul>
+            <!-- secondary menu -->
+            <div
+              class="
+                rounded-circle
+                p-1
+                bg-gray
+                d-flex
+                align-items-center
+                justify-content-center
+                mx-2
+              "
+              style="width: 38px; height: 38px"
+              type="button"
+              id="secondMenu"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              data-bs-auto-close="outside"
+            >
+              <i class="fas fa-caret-down"></i>
+            </div>
+            <!-- secondary menu dd -->
+            <ul
+              class="dropdown-menu border-0 shadow p-3"
+              aria-labelledby="secondMenu"
+              style="width: 23em"
+            >
+              <!-- avatar -->
+              <li class="dropdown-item p-1 rounded d-flex" type="button">
+                <img
+                  src="https://source.unsplash.com/collection/happy-people"
+                  alt="avatar"
+                  class="rounded-circle me-2"
+                  style="width: 45px; height: 45px; object-fit: cover"
+                />
+                <div>
+                  <p class="m-0">{{ user.first_name }}</p>
+                  <p class="m-0 text-muted">See your profile</p>
+                </div>
+              </li>
+              <hr />
+              <!-- Change settings -->
+              <li class="dropdown-item p-1 my-3 rounded" type="button">
+                <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a
+                      href="/settings"
+                      class="d-flex text-decoration-none text-dark"
+                    >
+                      <i class="fas fa-cog bg-gray p-2 rounded-circle"></i>
+                      <div
+                        class="
+                          ms-3
+                          d-flex
+                          justify-content-between
+                          align-items-center
+                          w-100
+                        "
+                      >
+                        <p class="m-0">Settings</p>
+                      </div>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <!-- Log Out -->
+              <li class="dropdown-item p-1 my-3 rounded" type="button">
+                <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a
+                      href="/logout"
+                      class="d-flex text-decoration-none text-dark"
+                    >
+                      <i class="fas fa-right-from-bracket bg-gray p-2 rounded-circle"></i>
+                      <div
+                        class="
+                          ms-3
+                          d-flex
+                          justify-content-between
+                          align-items-center
+                          w-100
+                        "
+                      >
+                        <p class="m-0">Log Out</p>
+                      </div>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+            <!-- end -->
+          </div>
+        </div>
+      </div>
+    </div>    
 {% endblock %}
