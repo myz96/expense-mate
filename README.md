@@ -1,10 +1,12 @@
-# Expense Mate
+# Xpense
 ## SEIFXR10ANZ Project 2 
 Social expense tracking to help you meet you saving goals
 
 ## Technologies
 - HTML
 - CSS
+ - Bootstrap
+ - Fontawesome
 - Javascript
 - Flask
 - Python
@@ -42,21 +44,17 @@ Social expense tracking to help you meet you saving goals
     - Create pie chart that shows % expense by category, coloured by type
     - Make add expense overlay
     - Allow users to create their own 
-6. Allow users to easily upload expenses
-    - Use [Plaid](https://dashboard.plaid.com/signup) to import bank transactions
-    - Allow users to upload CSV in template
 
 ### URL
-[Insert Link]
+http://localhost:5001/
 
 ## Next steps:
-- Allow users to delete posts and comments
-- Replace user_id in likes with user names
-- Create user display pages
-- Make comments an array of comment objects
-
 - Allow users to upload profile pictures
-- When users add friends, remove the friend icon
+- Make comments an array of comment objects
+    - Allow users to delete posts and comments
+- Make likes an array of like objects
+    - Replace user_id in likes with user names
+- Create user display pages
 - Allow users to search for friends
 - Replace savings amount with Pie chart or % over or under savings target
 - Enable search bar

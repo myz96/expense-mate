@@ -166,10 +166,10 @@ Transactions
                                         <div class="row my-3">
                                             <input type="date" name="date" id="date" class="px-3 form-control rounded-pill">
                                         </div>
-                                        <input type="text" name="description" id="description" placeholder="Add a description" class="form-control my-3" placeholder="{{ transaction.description }}">
-                                        <input type="number" name="amount" id="amount" placeholder="Transaction amount" class="form-control my-3" placeholder="{{ transaction.amount }}">
+                                        <input type="text" name="description" id="description" class="form-control my-3" value="{{ transaction.description }}">
+                                        <input type="number" name="amount" id="amount" class="form-control my-3" value="{{ transaction.amount }}">
                                         <!-- category  -->
-                                        <input type="text" name="category" id="category" placeholder="Transaction category" class="form-control my-3" placeholder="{{ transaction.category }}">
+                                        <input type="text" name="category" id="category" class="form-control my-3" value="{{ transaction.category }}">
                                         <div class="row my-3 d-flex">
                                             <div class="col">
                                                 <div class="border rounded p-2">

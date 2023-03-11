@@ -118,6 +118,7 @@ class User:
 
 def create_user(email, password_hash, first_name, last_name, savings_goal):
     sql_write("INSERT INTO users (email, password_hash, first_name, last_name, savings_goal, friend_ids) VALUES (%s, %s, %s, %s, %s, ARRAY[]::integer[])", [email, password_hash, first_name, last_name, savings_goal])
+    print(get_all_users())
 
 def get_user_id(email):
     rows = sql_select("SELECT id FROM users WHERE email = %s", [email])
@@ -165,8 +166,15 @@ class Post:
     def add_comment(self, comment):
         sql_write("UPDATE posts SET comments = array_append(comments, %s) WHERE id = %s", [comment, self.id])
 
+    # def delete_comment(self, id, date, content):
+    #     comment = Comment(id, date, self.id, self.user_id, self.first_name, content)
+    #     sql_write("UPDATE posts SET comments = array_remove(comments, %s) WHERE id = %s AND %s = ANY(comments.id)", [comment, self.id])
+
     def edit_post(self, description):
         sql_write("UPDATE posts SET description = %s WHERE id = %s", [description, self.id])
+
+    def delete_post(self):
+        sql_write("DELETE FROM posts WHERE id = %s", [self.id])
 
 def create_post(user_id, savings_amount, description):
     user = get_user(user_id)
@@ -203,3 +211,14 @@ def get_user_posts(user_id):
     posts = [get_post(row['id']) for row in rows]
     
     return posts
+
+class Comment:
+    def __init__(self, id, date, post_id, user_id, name, content):
+        self.id = id
+        self.date = date
+        self.post_id = post_id
+        self.user_id = user_id
+        self.name = name
+        self.content = content
+
+

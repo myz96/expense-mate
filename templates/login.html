@@ -42,7 +42,8 @@ q
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form action="/sign_up_action" id="sign_up_form">
+                            <form action="/sign_up_action" id="sign_up_form" method="POST">
+                                <!-- <input type="hidden" name="test" id="test" value="TEST"> -->
                                 <div class="row">
                                     <div class="col">
                                         <input type="text" name="first_name" id="first_name" placeholder="First name" class="form-control">
@@ -54,9 +55,10 @@ q
                                 <input type="email" name="email" id="email" name="email" placeholder="Email address" class="form-control my-3">
                                 <input type="password" name="password" id="password" name="password" placeholder="New password" class="form-control my-3">
                                 <input type="number" name="savings_goal" id="savings_goal" name="savings_goal" placeholder="Enter your weekly savings goal" class="form-control my-3">
+                               
                                 <div class="text-center mt-3">
-                                    <button type="button" class="btn btn-success btn-lg" data-bs-dismiss="modal" onclick="submitSignUpForm()">Sign Up</button>
-                                </div>
+                                    <button type="button" class="btn btn-success btn-lg" onclick="submitSignUpForm()" data-bs-dismiss="modal">Sign Up</button>
+                                </div> 
                             </form>
                         </div>
                     </div>

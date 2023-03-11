@@ -81,7 +81,7 @@ def my_dashboard():
 
         fig = go.Figure(
             data=[go.Pie(labels=labels, values=values)],
-            layout=go.Layout(title="Expenses by category for the last 30 days")
+            layout=go.Layout(title="Expenses by category")
         )
 
         pie_chart_src = fig.to_html(full_html=False)
@@ -144,14 +144,24 @@ def delete_confirmation():
 
 @app.route('/sign_up_action', methods=['POST'])
 def sign_up_action():
+    # test = request.form.get('test')
+    # return test
     first_name = request.form.get('first_name')
     last_name = request.form.get('last_name')
     email = request.form.get('email')
     password = request.form.get('password')
-    savings_goal = request.form.get('savings_goal')
     password_hash = generate_password_hash(password)
+    savings_goal = request.form.get('savings_goal')
     create_user(email, password_hash, first_name, last_name, savings_goal)
     return redirect('/login')
+
+@app.route('/settings')
+def settings_page():
+    user_id = session.get('user_id', '')
+    if not user_id:
+        return redirect('/login')
+    user = get_user(user_id)
+    return render_template('settings.html', user=user)
 
 @app.route('/settings_action', methods=['POST'])
 def settings_action():
@@ -209,6 +219,16 @@ def create_post_action():
     create_post(user_id, savings_amount, description)
     return redirect('/')
 
+@app.route('/delete_post_action')
+def delete_post_action():
+    user_id = session.get('user_id', '')
+    if not user_id:
+        return redirect('/login')
+    post_id = request.args.get('post_id')
+    post = get_post(post_id)
+    post.delete_post()
+    return redirect('/')
+
 @app.route('/like_post')
 def like_post():
     user_id = session.get('user_id', '')
@@ -225,9 +245,13 @@ def comment_post():
     user_id = session.get('user_id', '')
     if not user_id:
         return redirect('/login')
+    # user = get_user(user_id)
+    # date = datetime.date.today()
+    # id = 1
     comment = request.form.get('comment')
     post_id = request.form.get('post_id')
     post = get_post(post_id)
+    # comment = Comment(id, date, post.id, user.id, user.first_name, content)
     post.add_comment(comment)
     return redirect('/')
 
@@ -240,6 +264,11 @@ def add_friend():
     friend_id = request.args.get('friend_id')
     user.add_remove_friend(int(friend_id))
     return redirect('/')
+
+# @app.route('/users/<user_id>')
+# def user_page(user_id):
+#     user = get_user(user_id)
+#     return render_template("dashboard.html", user=user)
 
 if __name__ == "__main__":
     app.run(debug=True, host='localhost', port=5001)

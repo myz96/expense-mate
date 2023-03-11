@@ -83,15 +83,15 @@ Settings
                         <hr>
                         <div class="row">
                             <div class="col">
-                                <input type="text" name="first_name" id="first_name" placeholder="{{ user.first_name }}" class="form-control">
+                                <input type="text" name="first_name" id="first_name" value="{{ user.first_name }}" class="form-control">
                             </div>
                             <div class="col">
-                                <input type="text" name="last_name" id="last_name" placeholder="{{ user.last_name }}" class="form-control">
+                                <input type="text" name="last_name" id="last_name" value="{{ user.last_name }}" class="form-control">
                             </div>
                         </div>
-                        <input type="email" name="email" id="email" name="email" class="form-control my-3" placeholder="{{ user.email }}">
-                        <input type="password" name="password" id="password" name="password" class="form-control my-3" placeholder="Enter Password">
-                        <input type="number" name="savings_goal" id="savings_goal" name="savings_goal" class="form-control my-3" placeholder="{{ user.savings_goal }}">
+                        <input type="email" name="email" id="email" name="email" class="form-control my-3" value="{{ user.email }}">
+                        <input type="password" name="password" id="password" name="password" class="form-control my-3" value="Enter Password">
+                        <input type="number" name="savings_goal" id="savings_goal" name="savings_goal" class="form-control my-3" value="{{ user.savings_goal }}">
                         <div class="text-center mt-3">
                             <button type="button" class="btn btn-success btn-lg" data-bs-dismiss="modal" onclick="submitSettingsForm()">Submit</button>
                         </div>
